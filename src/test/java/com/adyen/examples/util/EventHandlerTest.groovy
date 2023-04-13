@@ -22,7 +22,7 @@ public class EventHandlerTest extends spock.lang.Specification {
                 "    },\n" +
                 "    \"environment\": \"test\",\n" +
                 "    \"type\": \"balancePlatform.balanceAccount.created\"\n" +
-                "}";
+                "}"
         when:
         def event = eventHandler.getBalanceAccountNotificationRequest(json)
         then:
@@ -45,7 +45,7 @@ public class EventHandlerTest extends spock.lang.Specification {
                 "    },\n" +
                 "    \"environment\": \"test\",\n" +
                 "    \"type\": \"balancePlatform.accountHolder.created\"\n" +
-                "}";
+                "}"
         when:
         def event = eventHandler.getBalanceAccountNotificationRequest(accountHolder_json)
         then:
