@@ -94,7 +94,7 @@
         <gson-fire-version>1.8.5</gson-fire-version>
         <commons-lang3-version>3.12.0</commons-lang3-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
-        <springdoc.version>1.6.14</springdoc.version>
+        <springdoc.version>1.7.0</springdoc.version>
     </properties>
 
 </project>
