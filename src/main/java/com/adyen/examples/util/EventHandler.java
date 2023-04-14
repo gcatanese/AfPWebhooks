@@ -1,10 +1,10 @@
 package com.adyen.examples.util;
 
 import com.adyen.examples.exception.InvalidWebhookTypeException;
-import com.adyen.examples.model.AccountHolderNotificationRequest;
-import com.adyen.examples.model.BalanceAccountNotificationRequest;
-import com.adyen.examples.model.PaymentNotificationRequest;
-import com.adyen.examples.model.SweepConfigurationNotificationRequest;
+import com.adyen.examples.model.configuration.AccountHolderNotificationRequest;
+import com.adyen.examples.model.configuration.BalanceAccountNotificationRequest;
+import com.adyen.examples.model.configuration.PaymentNotificationRequest;
+import com.adyen.examples.model.configuration.SweepConfigurationNotificationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

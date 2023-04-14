@@ -1,7 +1,7 @@
 package com.adyen.examples.controller;
 
 import com.adyen.examples.ApplicationProperty;
-import com.adyen.examples.model.AccountHolderNotificationRequest;
+import com.adyen.examples.model.configuration.AccountHolderNotificationRequest;
 import com.adyen.examples.util.EventHandler;
 import com.adyen.examples.util.HMACValidator;
 import org.slf4j.Logger;
