@@ -1,10 +1,17 @@
-# Adyen for Platforms: webhook samples and best practises
+# Adyen for Platforms webhooks: workflow, examples and best practises
+
+**Table of content:**
+- [Intro](#intro)
+- [Consume a webhook](#consume-a-webhook)
+- [Testing webhooks](#testing-webhooks)
+
+## Intro
 
 Adyen sends notifications through webhooks to inform your system about events and changes occurring in your platform.
 
 There are various types of events:
 * [Configuration webhooks](https://docs.adyen.com/api-explorer/balanceplatform-webhooks/1/overview): these events include, 
-for example, when an account holder's capabilities are updated, or when a sweep configuration is created or updated.
+for example, when an account holder's capabilities are updated, or when a sweep configuration is created or updated
 * [Transfer webhooks](https://docs.adyen.com/api-explorer/transfer-webhooks/3/overview): updates on incoming and outgoing transfers in the platform
 * [Report webhooks](https://docs.adyen.com/api-explorer/report-webhooks/1/overview): a report has been generated and is ready to be downloaded
 
@@ -22,14 +29,16 @@ Consuming a webhook involves few steps:
 ### 1) Webhook handler
 
 It can be implemented in your preferred language/framework. This repository provides a Java (Springboot) sample 
-(see [WebhookController](src/main/java/com/adyen/examples/controller/WebhookController.java))
+(see [WebhookController](src/main/java/com/adyen/examples/controller/WebhookController.java)).
+
+Your service must expose a URL that Adyen can reach (see [Testing webhooks](#testing-webhooks)).
 
 ### 2) HMAC signature
 
 Adyen signs every webhook with an HMAC signature in the request header `HmacSignature`. 
 Verify the signature to confirm that the webhook was sent by Adyen and was not modified during transmission.
 
-Check [HMACValidator](src/main/java/com/adyen/examples/util/HMACValidator.java) to see how to calculate and validate the signature
+Check [HMACValidator](src/main/java/com/adyen/examples/util/HMACValidator.java) to see how to calculate and validate the signature.
 
 ### 3) Accept the webhook
 
@@ -47,3 +56,25 @@ Deserialise the JSON payloand in a Java object and implement your worfklow.
 Check [EventHandler](src/main/java/com/adyen/examples/util/EventHandler.java) to see a possible Jackson-approach.
 
 The package [model](src/main/java/com/adyen/examples/model) contains the Java classes mapping the [Adyen OpenAPI](https://github.com/Adyen/adyen-openapi) specifications.
+
+## Testing webhooks
+
+Testing webhooks is challenging.   
+Your application must be reachable by Adyen POST requests, on the other hand you probably
+need/want to work on your local development environment.
+
+Here are 2 options.
+
+### Adyen webhooks Postman collection
+
+Fork the [Adyen webhooks](https://www.postman.com/beppecatanese/workspace/working-with-adyen/collection/8426282-f65935ea-8a87-4883-9f58-0eeac69e185a?action=share&creator=8426282) Postman collection.
+It includes several webhook payloads that you can send directly in your application.
+- ✅ Pros: works on `localhost`, simple and fast
+- ❌ Cons: doess not receive 'real' webhook payloads from Adyen
+
+### Tunneling software
+
+Use a tunneling software tool (i.e. ngrok) that can expose your local environment to the internet.
+
+- ✅ Pros: receives on `localhost` 'real' webhook payloads from Adyen
+- ❌ Cons: requires `exposing` localhost to the Internet
