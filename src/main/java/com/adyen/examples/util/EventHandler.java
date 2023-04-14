@@ -1,6 +1,5 @@
 package com.adyen.examples.util;
 
-import ch.qos.logback.core.pattern.color.BlackCompositeConverter;
 import com.adyen.examples.exception.InvalidWebhookTypeException;
 import com.adyen.examples.model.AccountHolderNotificationRequest;
 import com.adyen.examples.model.BalanceAccountNotificationRequest;
