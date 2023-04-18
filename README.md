@@ -67,7 +67,7 @@ Here are 2 options.
 
 ### Adyen webhooks Postman collection
 
-Fork the [Adyen webhooks]([https://www.postman.com/adyendev/workspace/adyen-webhooks/overview](https://www.postman.com/adyendev/workspace/adyen-webhooks/collection/25716737-fc09efa0-5a7e-4611-ac48-9900946393b0) Postman collection.
+Fork the [Adyen webhooks](https://www.postman.com/adyendev/workspace/adyen-webhooks/collection/25716737-fc09efa0-5a7e-4611-ac48-9900946393b0) Postman collection.
 It includes several webhook payloads that you can send directly in your application.
 - ✅ Pros: works on `localhost`, simple and fast
 - ❌ Cons: doess not receive 'real' webhook payloads from Adyen
