@@ -17,6 +17,7 @@ import java.util.Map;
  */
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class WebhookController {
     private final Logger logger = LoggerFactory.getLogger(WebhookController.class);
@@ -49,7 +50,7 @@ public class WebhookController {
 
         String hmacsignature = headers.get("hmacsignature");
 
-        if (hmacsignature.isBlank()) {
+        if (hmacsignature == null || hmacsignature.isBlank()) {
             logger.warn("HMAC Signature not found");
             throw new RuntimeException("HMAC Signature not found");
         }
@@ -61,7 +62,7 @@ public class WebhookController {
 
         // process AccountHolder webhook
         AccountHolderNotificationRequest accountHolderNotificationRequest = eventHandler.getAccountHolderNotificationRequest(json);
-        logger.info("environment--->{}", accountHolderNotificationRequest.getEnvironment());
+        logger.info("type--->{}", accountHolderNotificationRequest.getType());
 
         // Acknowledge event has been consumed
         return ResponseEntity.ok().body("[accepted]");
