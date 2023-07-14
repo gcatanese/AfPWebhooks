@@ -1,12 +1,6 @@
 package com.adyen.examples.util;
 
-import com.adyen.examples.exception.InvalidWebhookTypeException;
-import com.adyen.examples.model.configuration.AccountHolderNotificationRequest;
-import com.adyen.examples.model.configuration.BalanceAccountNotificationRequest;
-import com.adyen.examples.model.configuration.PaymentNotificationRequest;
-import com.adyen.examples.model.configuration.SweepConfigurationNotificationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -17,79 +11,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventHandler {
 
-    // cache destination type
-    private static final TypeReference<AccountHolderNotificationRequest> ACCOUNT_HOLDER_NOTIFICATION_REQUEST_TYPE =
-            new TypeReference<>() {};
-    private static final TypeReference<BalanceAccountNotificationRequest> BALANCE_ACCOUNT_NOTIFICATION_REQUEST_TYPE =
-            new TypeReference<>() {};
-
-    private static final TypeReference<SweepConfigurationNotificationRequest> SWEEP_CONFIGURATION_NOTIFICATION_REQUEST_TYPE =
-            new TypeReference<>() {};
-
-    private static final TypeReference<PaymentNotificationRequest> PAYMENT_NOTIFICATION_REQUEST_TYPE =
-            new TypeReference<>() {};
-
-    public AccountHolderNotificationRequest getAccountHolderNotificationRequest(String json) throws InvalidWebhookTypeException, JsonProcessingException {
+    public String getEventType(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(json);
         JsonNode type = jsonNode.get("type");
 
-        if (!isAccountHolderWebhook(type)) {
-            throw new InvalidWebhookTypeException("Unexpected webhook type: " + type);
-        }
-
-        return objectMapper.readValue(json, ACCOUNT_HOLDER_NOTIFICATION_REQUEST_TYPE);
+        return type != null ? type.asText() : null;
     }
 
-    public BalanceAccountNotificationRequest getBalanceAccountNotificationRequest(String json) throws InvalidWebhookTypeException, JsonProcessingException {
+    public String getEventEnvironment(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(json);
-        JsonNode type = jsonNode.get("type");
+        JsonNode environment = jsonNode.get("environment");
 
-        if (!isABalanceAccountWebhook(type)) {
-            throw new InvalidWebhookTypeException("Unexpected webhook type: " + type);
-        }
-
-        return objectMapper.readValue(json, BALANCE_ACCOUNT_NOTIFICATION_REQUEST_TYPE);
+        return environment != null ? environment.asText() : null;
     }
 
-    public SweepConfigurationNotificationRequest getSweepConfigurationNotificationRequest(String json) throws InvalidWebhookTypeException, JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        JsonNode type = jsonNode.get("type");
-
-        if (!isBalanceAccountSweepWebhook(type)) {
-            throw new InvalidWebhookTypeException("Unexpected webhook type: " + type);
-        }
-
-        return objectMapper.readValue(json, SWEEP_CONFIGURATION_NOTIFICATION_REQUEST_TYPE);
-    }
-
-    public PaymentNotificationRequest getPaymentNotificationRequest(String json) throws InvalidWebhookTypeException, JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        JsonNode type = jsonNode.get("type");
-
-        if (!isPaymentInstrument(type)) {
-            throw new InvalidWebhookTypeException("Unexpected webhook type: " + type);
-        }
-
-        return objectMapper.readValue(json, PAYMENT_NOTIFICATION_REQUEST_TYPE);
-    }
-
-    boolean isAccountHolderWebhook(JsonNode type) {
-        return type != null && type.asText().startsWith("balancePlatform.accountHolder.");
-    }
-
-    boolean isABalanceAccountWebhook(JsonNode type) {
-        return type != null && type.asText().startsWith("balancePlatform.balanceAccount.");
-    }
-
-    boolean isBalanceAccountSweepWebhook(JsonNode type) {
-        return type != null && type.asText().startsWith("balancePlatform.balanceAccountSweep.");
-    }
-
-    boolean isPaymentInstrument(JsonNode type) {
-        return type != null && type.asText().startsWith("balancePlatform.paymentInstrument.");
-    }
 }
