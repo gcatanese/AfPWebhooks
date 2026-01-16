@@ -1,4 +1,4 @@
-# Adyen for Platforms webhooks: workflow, examples, and best practices
+# Adyen for Platforms webhooks: see workflow, examples, and best practices
 
 **Table of contents:**
 - [Intro](#intro)
